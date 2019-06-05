@@ -1,0 +1,33 @@
+{
+  "name": "Training - WMP Attended REF - 03/11/2019",
+  "description": "WMP Attended REF - Training Bot",
+  "main": "Main.xaml",
+  "dependencies": {
+    "UiPath.Credentials.Activities": "[1.1.6479.13204]",
+    "UiPath.Mail.Activities": "[1.3.0]",
+    "UiPath.UIAutomation.Activities": "[19.1.0]",
+    "Microsoft.Activities.Extensions": "[2.0.6.9]",
+    "Microsoft.Activities": "[1.0.1]",
+    "UiPath.Cognitive.Activities": "[2.2.0]",
+    "BalaReva.Excel.Activities": "[17.0.0]",
+    "BalaReva.DataTable.Activities": "[1.1.0]",
+    "UiPath.System.Activities": "[19.2.0]",
+    "UiPath.Excel.Activities": "[2.5.2]",
+    "Microsoft.Office.Interop.Excel": "[15.0.4795.1000]"
+  },
+  "schemaVersion": "3.2",
+  "studioVersion": "18.4.1.0",
+  "projectVersion": "1.0.0.0",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*"
+    ]
+  },
+  "projectType": "Workflow",
+  "libraryOptions": {
+    "includeOriginalXaml": false,
+    "privateWorkflows": []
+  }
+}

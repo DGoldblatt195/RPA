@@ -1,0 +1,751 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Attended_build_excelDashboard"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_str_LogName_excelTbl" Type="InArgument(x:String)" />
+    <x:Property Name="environment" Type="InArgument(x:String)" />
+    <x:Property Name="in_str_transactionLog_FilePath" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>Attended_build_excelDashboard_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Plugin.Workflow</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Precondition: dt_transactionHistory has been written to excel transactionLog&#xA;&#xA;Postcondition: Data Summary Views have been built for Dashboard use within the transactionLog&#xA;&#xA;Tab - SummaryByDate, SummaryByRunID, SummaryToday&#xA;&#xA;Table names:&#xA;tbl_dailyHistory&#xA;tbl_dateHistory&#xA;tbl_runIDHistory" DisplayName="Attended_build_excelDashboard" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_transactionLog" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_runIDHistory" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_dateHistory" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_dailyHistory" />
+      <Variable x:TypeArguments="x:String" Name="todayDate" />
+      <Variable x:TypeArguments="x:String" Name="range_dateHistory" />
+      <Variable x:TypeArguments="x:String" Name="range_dailyHistory" />
+      <Variable x:TypeArguments="x:String" Name="range_tbl_dailyHistory" />
+      <Variable x:TypeArguments="x:String" Name="range_tbl_dateHistory" />
+      <Variable x:TypeArguments="x:Int32" Name="numberRows_date" />
+      <Variable x:TypeArguments="x:Int32" Name="numberRows_daily" />
+      <Variable x:TypeArguments="x:String" Name="range_runID" />
+      <Variable x:TypeArguments="x:Int32" Name="numberRows_runID" />
+      <Variable x:TypeArguments="x:String" Name="range_tbl_runID" />
+    </Sequence.Variables>
+    <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Building Excel Dashboard from Transaction Log&quot;]" />
+    <Sequence DisplayName="Load Data + Initialize and Build DataTables for Output" sap2010:WorkflowViewState.IdRef="Sequence_11">
+      <Sequence DisplayName="Get TransactionLog into DataTable" sap2010:WorkflowViewState.IdRef="Sequence_2">
+        <Sequence.Variables>
+          <Variable x:TypeArguments="x:String" Name="range_transactionLog" />
+        </Sequence.Variables>
+        <ui:GetTableRange DisplayName="Get Table Range - environment_transLog" sap2010:WorkflowViewState.IdRef="GetTableRange_1" IsPivot="False" Range="[range_transactionLog]" SheetName="[environment]" TableName="[in_str_LogName_excelTbl]" WorkbookPath="Data\transactionLog\transactionLog.xlsx" />
+        <ui:ReadRange AddHeaders="True" DataTable="[dt_transactionLog]" DisplayName="Read Range - environment_transLog" sap2010:WorkflowViewState.IdRef="ReadRange_2" Range="[range_transactionLog]" SheetName="[environment]" WorkbookPath="Data\transactionLog\transactionLog.xlsx" />
+      </Sequence>
+      <Sequence sap2010:Annotation.AnnotationText="Adding a primary key to the transaction log by adding a new column that combines runID and transactionID&#xA;&#xA;example - pkey = 1.00001&#xD;&#xA;&#xD;&#xA;Note-this functionality is not invoked by other workflows" DisplayName="Add primaryKey to transactionLog" sap2010:WorkflowViewState.IdRef="Sequence_16">
+        <ui:AddDataColumn x:TypeArguments="x:String" Column="{x:Null}" DefaultValue="{x:Null}" AllowDBNull="False" AutoIncrement="False" ColumnName="pKey" DataTable="[dt_transactionLog]" DisplayName="Add Data Column - pKey" sap2010:WorkflowViewState.IdRef="AddDataColumn`1_2" MaxLength="10000000" Unique="False" />
+        <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[dt_transactionLog]" DisplayName="For Each Row" sap2010:WorkflowViewState.IdRef="ForEachRow_3">
+          <ui:ForEachRow.Body>
+            <ActivityAction x:TypeArguments="sd:DataRow">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+              </ActivityAction.Argument>
+              <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="ui:GenericValue" Name="transactionID" />
+                </Sequence.Variables>
+                <If Condition="[cint(row.Item(&quot;transactionNumber&quot;)) &lt; 10000]" DisplayName="If less than 10000 &gt; 1000 - add 0 in front of transID. e.g. &quot;01000&quot; else &quot;10000&quot;" sap2010:WorkflowViewState.IdRef="If_1">
+                  <If.Then>
+                    <If Condition="[cint(row.Item(&quot;transactionNumber&quot;)) &lt; 1000]" DisplayName="If less than 1000 &gt; 100 - add 00 in front of transID. e.g. &quot;00100&quot;" sap2010:WorkflowViewState.IdRef="If_4">
+                      <If.Then>
+                        <If Condition="[cint(row.Item(&quot;transactionNumber&quot;)) &lt; 100]" DisplayName="If less than 100 &gt; 10 - add 000 in front of transID. e.g. &quot;00010&quot;" sap2010:WorkflowViewState.IdRef="If_3">
+                          <If.Then>
+                            <If Condition="[cint(row.Item(&quot;transactionNumber&quot;)) &lt; 10]" DisplayName="if less than 10 - add 0000 in front of transID. e.g. &quot;00001&quot;" sap2010:WorkflowViewState.IdRef="If_2">
+                              <If.Then>
+                                <Assign sap2010:WorkflowViewState.IdRef="Assign_19">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="ui:GenericValue">[transactionID]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="ui:GenericValue">["0000"+ row.Item("transactionNumber").ToString]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                              </If.Then>
+                              <If.Else>
+                                <Assign sap2010:WorkflowViewState.IdRef="Assign_21">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="ui:GenericValue">[transactionID]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="ui:GenericValue">["000"+ row.Item("transactionNumber").ToString]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                              </If.Else>
+                            </If>
+                          </If.Then>
+                          <If.Else>
+                            <Assign sap2010:WorkflowViewState.IdRef="Assign_22">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="ui:GenericValue">[transactionID]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="ui:GenericValue">["00"+ row.Item("transactionNumber").ToString]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </If.Else>
+                        </If>
+                      </If.Then>
+                      <If.Else>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_23">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="ui:GenericValue">[transactionID]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="ui:GenericValue">["0"+ row.Item("transactionNumber").ToString]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </If.Else>
+                    </If>
+                  </If.Then>
+                  <If.Else>
+                    <Assign sap2010:WorkflowViewState.IdRef="Assign_20">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="ui:GenericValue">[transactionID]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="ui:GenericValue">[row.Item("transactionNumber").ToString]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </If.Else>
+                </If>
+                <Assign DisplayName="Assignm primary key to column" sap2010:WorkflowViewState.IdRef="Assign_18">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Object">[row.item("pKey")]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="ui:GenericValue">[row.Item("runID").ToString +"." + transactionID]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </ActivityAction>
+          </ui:ForEachRow.Body>
+        </ui:ForEachRow>
+      </Sequence>
+      <Sequence DisplayName="Initialize Summary DataTables" sap2010:WorkflowViewState.IdRef="Sequence_3">
+        <Assign DisplayName="Initialize dt_dateHistory" sap2010:WorkflowViewState.IdRef="Assign_2">
+          <Assign.To>
+            <OutArgument x:TypeArguments="sd:DataTable">[dt_dateHistory]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="sd:DataTable">[New DataTable]</InArgument>
+          </Assign.Value>
+        </Assign>
+        <Assign DisplayName="Initialize dt_dailyHistory" sap2010:WorkflowViewState.IdRef="Assign_3">
+          <Assign.To>
+            <OutArgument x:TypeArguments="sd:DataTable">[dt_dailyHistory]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="sd:DataTable">[New DataTable]</InArgument>
+          </Assign.Value>
+        </Assign>
+        <Assign DisplayName="Initialize dt_runIDHistory" sap2010:WorkflowViewState.IdRef="Assign_9">
+          <Assign.To>
+            <OutArgument x:TypeArguments="sd:DataTable">[dt_runIDHistory]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="sd:DataTable">[New DataTable]</InArgument>
+          </Assign.Value>
+        </Assign>
+      </Sequence>
+      <Sequence DisplayName="Add Headers to DataSummary Tables" sap2010:WorkflowViewState.IdRef="Sequence_6">
+        <Sequence DisplayName="Initialize dt_dailyHistory" sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="sd:DataTable" Name="dt_tempTable" />
+          </Sequence.Variables>
+          <Assign DisplayName="Create TempTable for dt.clone" sap2010:WorkflowViewState.IdRef="Assign_6">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[dt_tempTable]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[New DataTable]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:GetTableRange DisplayName="Get Table Range - tbl_dailyHistory" sap2010:WorkflowViewState.IdRef="GetTableRange_2" IsPivot="False" Range="[range_dailyHistory]" SheetName="SummaryToday" TableName="tbl_dailyHistory" WorkbookPath="Data\transactionLog\transactionLog.xlsx" />
+          <ui:ReadRange AddHeaders="True" DataTable="[dt_tempTable]" DisplayName="Read Range - tbl_dailyHistory" sap2010:WorkflowViewState.IdRef="ReadRange_3" Range="[range_dailyHistory]" SheetName="SummaryToday" WorkbookPath="Data\transactionLog\transactionLog.xlsx" />
+          <Assign DisplayName="Initialize dt_dailyHistory" sap2010:WorkflowViewState.IdRef="Assign_1">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[dt_dailyHistory]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[dt_tempTable.Clone]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+        <Sequence DisplayName="Initialize dt_dateHistory" sap2010:WorkflowViewState.IdRef="Sequence_5">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="sd:DataTable" Name="dt_tempTable" />
+          </Sequence.Variables>
+          <Assign DisplayName="Create TempTable for dt.clone" sap2010:WorkflowViewState.IdRef="Assign_4">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[dt_tempTable]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[New DataTable]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:GetTableRange DisplayName="Get Table Range - tbl_weeklyHistory" sap2010:WorkflowViewState.IdRef="GetTableRange_3" IsPivot="False" Range="[range_dateHistory]" SheetName="SummaryByDate" TableName="tbl_dateHistory" WorkbookPath="Data\transactionLog\transactionLog.xlsx" />
+          <ui:ReadRange AddHeaders="True" DataTable="[dt_tempTable]" DisplayName="Read Range - tbl_weeklyHistory" sap2010:WorkflowViewState.IdRef="ReadRange_4" Range="[range_dateHistory]" SheetName="SummaryByDate" WorkbookPath="Data\transactionLog\transactionLog.xlsx" />
+          <Assign DisplayName="Initialize dt_dateHistory" sap2010:WorkflowViewState.IdRef="Assign_5">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[dt_dateHistory]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[dt_tempTable.Clone]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+        <Sequence DisplayName="Initialize dt_runID" sap2010:WorkflowViewState.IdRef="Sequence_7">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="sd:DataTable" Name="dt_tempTable" />
+          </Sequence.Variables>
+          <Assign DisplayName="Create TempTable for dt.clone" sap2010:WorkflowViewState.IdRef="Assign_7">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[dt_tempTable]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[New DataTable]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:GetTableRange DisplayName="Get Table Range - tbl_runID" sap2010:WorkflowViewState.IdRef="GetTableRange_4" IsPivot="False" Range="[range_runID]" SheetName="SummaryByRunID" TableName="tbl_runID" WorkbookPath="Data\transactionLog\transactionLog.xlsx" />
+          <ui:ReadRange AddHeaders="True" DataTable="[dt_tempTable]" DisplayName="Read Range - tbl_compHistory" sap2010:WorkflowViewState.IdRef="ReadRange_5" Range="[range_runID]" SheetName="SummaryByRunID" WorkbookPath="Data\transactionLog\transactionLog.xlsx" />
+          <Assign DisplayName="Initialize dt_runIDHistory" sap2010:WorkflowViewState.IdRef="Assign_8">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[dt_runIDHistory]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[dt_tempTable.clone]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </Sequence>
+    </Sequence>
+    <Sequence sap2010:Annotation.AnnotationText="In order to run calculations on TimeSpan durations from excel, we must first convert to double. &#xD;&#xA;e.g. TransactionTime.TimeOfDay.TotalSeconds - returns total seconds from minutes or number of seconds from 00:00:00." DisplayName="Update DataTable Values" sap2010:WorkflowViewState.IdRef="Sequence_28">
+      <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[dt_transactionLog]" DisplayName="For Each Row in dt_transactionLog" sap2010:WorkflowViewState.IdRef="ForEachRow_5">
+        <ui:ForEachRow.Body>
+          <ActivityAction x:TypeArguments="sd:DataRow">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_30">
+              <Sequence.Variables>
+                <Variable x:TypeArguments="s:DateTime" Name="transactionTime" />
+                <Variable x:TypeArguments="s:DateTime" Name="runTime" />
+                <Variable x:TypeArguments="x:Double" Name="dbl_transTime" />
+                <Variable x:TypeArguments="x:Double" Name="dbl_runTime" />
+              </Sequence.Variables>
+              <ui:GetRowItem Column="{x:Null}" ColumnIndex="{x:Null}" ColumnName="transactionTime" DisplayName="Get Row Item - transactionTime" sap2010:WorkflowViewState.IdRef="GetRowItem_2" Row="[row]">
+                <ui:GetRowItem.Value>
+                  <OutArgument x:TypeArguments="s:DateTime">[transactionTime]</OutArgument>
+                </ui:GetRowItem.Value>
+              </ui:GetRowItem>
+              <ui:GetRowItem Column="{x:Null}" ColumnIndex="{x:Null}" ColumnName="runTime" DisplayName="Get Row Item - runTime" sap2010:WorkflowViewState.IdRef="GetRowItem_3" Row="[row]">
+                <ui:GetRowItem.Value>
+                  <OutArgument x:TypeArguments="s:DateTime">[runTime]</OutArgument>
+                </ui:GetRowItem.Value>
+              </ui:GetRowItem>
+              <Assign DisplayName="Assign - transactionTime as TotalSeconds" sap2010:WorkflowViewState.IdRef="Assign_55">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Double">[dbl_transTime]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Double">[transactionTime.TimeOfDay.TotalSeconds]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign DisplayName="Assign - back to transactionTime" sap2010:WorkflowViewState.IdRef="Assign_49">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">[row.Item("transactionTime")]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">[dbl_transTime]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign DisplayName="Assign - runTime as TotalSeconds" sap2010:WorkflowViewState.IdRef="Assign_56">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Double">[dbl_runTime]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Double">[runTime.TimeOfDay.TotalSeconds]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign DisplayName="Assign - back to runTime" sap2010:WorkflowViewState.IdRef="Assign_50">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Object">[row.Item("runTime")]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Object">[dbl_runTime]</InArgument>
+                </Assign.Value>
+              </Assign>
+            </Sequence>
+          </ActivityAction>
+        </ui:ForEachRow.Body>
+      </ui:ForEachRow>
+    </Sequence>
+    <Assign DisplayName="Assign todayDate" sap2010:WorkflowViewState.IdRef="Assign_14">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[todayDate]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Datetime.Now.ToShortDateString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Sequence sap2010:Annotation.AnnotationText="Builds a summarized DataTable view based on runDate from dt_transactionLog" DisplayName="Create Summary Data Table - DateHistory" sap2010:WorkflowViewState.IdRef="Sequence_94">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="sd:DataTable" Name="dt_todayRunID" />
+        <Variable x:TypeArguments="x:String" Name="str_dt" />
+        <Variable x:TypeArguments="scg:List(s:String[])" Name="list_dateHistory" />
+      </Sequence.Variables>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke dt_Dashboard_byDateSummary workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_16" UnSafe="False" WorkflowFileName="WMP Attended Framework\BuildDashboard\dt_Dashboard_byDateSummary.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_transactionLog">[dt_transactionLog]</InArgument>
+          <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_dateHistory">[dt_dateHistory]</InOutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+    </Sequence>
+    <Sequence sap2010:Annotation.AnnotationText="Builds a summarized DataTable view based on today's runs in dt_transactionHistory - dailyHistory" DisplayName="Create Summary Data Table - DailyHistory" sap2010:WorkflowViewState.IdRef="Sequence_142">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="sd:DataTable" Name="dt_todayRunID" />
+        <Variable x:TypeArguments="x:String" Name="str_dt" />
+        <Variable x:TypeArguments="scg:List(s:String[])" Name="list_arrDailyHistory" />
+      </Sequence.Variables>
+      <Assign sap2010:WorkflowViewState.IdRef="Assign_129">
+        <Assign.To>
+          <OutArgument x:TypeArguments="sd:DataTable">[dt_todayRunID]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="sd:DataTable">[dt_transactionLog.Select("[runDate]='"+todayDate.ToString+"'").CopyToDataTable]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke dt_Dashboard_todaySummary workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_17" UnSafe="False" WorkflowFileName="WMP Attended Framework\BuildDashboard\dt_Dashboard_todaySummary.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_todayRunId">[dt_todayRunID]</InArgument>
+          <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_dailyHistory">[dt_dailyHistory]</InOutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+    </Sequence>
+    <Sequence sap2010:Annotation.AnnotationText="Builds a summarized DataTable view based on each RunID in dt_transactionHistory" DisplayName="Create Summary DT for RunID  " sap2010:WorkflowViewState.IdRef="Sequence_18">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="sd:DataTable" Name="dt_todayRunID" />
+        <Variable x:TypeArguments="x:String" Name="str_dt" />
+        <Variable x:TypeArguments="scg:List(s:String[])" Name="list_arrDailyHistory" />
+      </Sequence.Variables>
+      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke dt_Dashboard_byRunIDSummary workflow" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_18" UnSafe="False" WorkflowFileName="WMP Attended Framework\BuildDashboard\dt_Dashboard_byRunIDSummary.xaml">
+        <ui:InvokeWorkflowFile.Arguments>
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_transactionLog">[dt_transactionLog]</InArgument>
+          <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_runIDHistory">[dt_runIDHistory]</InOutArgument>
+        </ui:InvokeWorkflowFile.Arguments>
+      </ui:InvokeWorkflowFile>
+    </Sequence>
+    <Sequence sap2010:Annotation.AnnotationText="Do not change - this sequence uses the table range defined in excel and assumes that all Summary tables are smaller than 26 columns based on hardcoded values" DisplayName="assign variables for updating excel" sap2010:WorkflowViewState.IdRef="Sequence_139">
+      <Assign DisplayName="Assign - set range_tbl_dateHistory for pasting data" sap2010:WorkflowViewState.IdRef="Assign_121">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[range_tbl_dateHistory]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[range_dateHistory.Replace("1", "3")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign - numberRows for dateHistory" sap2010:WorkflowViewState.IdRef="Assign_127">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:Int32">[numberRows_date]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:Int32">[cint(range_dateHistory.Substring(4))]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign - range_tbl_dailyHistory" sap2010:WorkflowViewState.IdRef="Assign_122">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[range_tbl_dailyHistory]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[range_dailyHistory.Replace("1", "3")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign - numberRows for dailyhistory" sap2010:WorkflowViewState.IdRef="Assign_128">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:Int32">[numberRows_daily]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:Int32">[cint(range_dailyHistory.Substring(4))]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign - range_tbl_runID" sap2010:WorkflowViewState.IdRef="Assign_131">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[range_tbl_runID]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[range_runID.Replace("1", "3")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Assign - numberRows for runID" sap2010:WorkflowViewState.IdRef="Assign_132">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:Int32">[numberRows_runID]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:Int32">[CInt(range_runID.Substring(4))]</InArgument>
+        </Assign.Value>
+      </Assign>
+    </Sequence>
+    <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Updating Excel&quot;]" />
+    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_2" Visible="False" WorkbookPath="[in_str_transactionLog_FilePath]">
+      <ui:ExcelApplicationScope.Body>
+        <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_119">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="s:String[]" Name="arr_rangeDateHistory" />
+              <Variable x:TypeArguments="x:String" Name="cellA2Date" />
+              <Variable x:TypeArguments="x:String" Name="cellA2Today" />
+            </Sequence.Variables>
+            <Sequence DisplayName="write date history" sap2010:WorkflowViewState.IdRef="Sequence_135">
+              <ui:ExcelInsertDeleteRows DisplayName="Insert/Delete Rows - previous range" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteRows_1" Mode="Remove" NoRows="[numberRows_date]" Position="3" SheetName="SummaryByDate" />
+              <ui:ExcelAppendRange DataTable="[dt_dateHistory]" DisplayName="Append - add new table_dateHistory" sap2010:WorkflowViewState.IdRef="ExcelAppendRange_1" SheetName="SummaryByDate" />
+              <ui:ExcelInsertDeleteRows DisplayName="Insert/Delete Rows - Delete first row" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteRows_2" Mode="Remove" NoRows="1" Position="2" SheetName="SummaryByDate" />
+            </Sequence>
+            <Sequence DisplayName="write daily history" sap2010:WorkflowViewState.IdRef="Sequence_136">
+              <ui:ExcelInsertDeleteRows DisplayName="Insert/Delete Rows - previous range" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteRows_3" Mode="Remove" NoRows="[numberRows_date]" Position="3" SheetName="SummaryToday" />
+              <ui:ExcelAppendRange DataTable="[dt_dailyHistory]" DisplayName="Append - add new table_dailyHistory" sap2010:WorkflowViewState.IdRef="ExcelAppendRange_2" SheetName="SummaryToday" />
+              <ui:ExcelInsertDeleteRows DisplayName="Insert/Delete Rows - delete first row" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteRows_4" Mode="Remove" NoRows="1" Position="2" SheetName="SummaryToday" />
+            </Sequence>
+            <Sequence DisplayName="write runID" sap2010:WorkflowViewState.IdRef="Sequence_143">
+              <ui:ExcelInsertDeleteRows DisplayName="Insert/Delete Rows - previous range" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteRows_5" Mode="Remove" NoRows="[numberRows_runID]" Position="3" SheetName="SummaryByRunID" />
+              <ui:ExcelAppendRange DataTable="[dt_runIDHistory]" DisplayName="Append - add new table_dailyHistory" sap2010:WorkflowViewState.IdRef="ExcelAppendRange_3" SheetName="SummaryByRunID" />
+              <ui:ExcelInsertDeleteRows DisplayName="Insert/Delete Rows - delete first row" sap2010:WorkflowViewState.IdRef="ExcelInsertDeleteRows_6" Mode="Remove" NoRows="1" Position="2" SheetName="SummaryByRunID" />
+            </Sequence>
+          </Sequence>
+        </ActivityAction>
+      </ui:ExcelApplicationScope.Body>
+    </ui:ExcelApplicationScope>
+    <sads:DebugSymbol.Symbol>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</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="LogMessage_1" sap:VirtualizedContainerService.HintSize="414.4,92.8" />
+      <sap2010:ViewStateData Id="GetTableRange_1" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="ReadRange_2" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="222.4,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="AddDataColumn`1_2" sap:VirtualizedContainerService.HintSize="287.2,22.4" />
+      <sap2010:ViewStateData Id="Assign_19" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_21" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_22" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="If_3" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_23" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="If_4" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_20" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="243.2,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_18" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Sequence_17" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEachRow_3" sap:VirtualizedContainerService.HintSize="287.2,208.8" />
+      <sap2010:ViewStateData Id="Sequence_16" sap:VirtualizedContainerService.HintSize="222.4,208.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_9" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="222.4,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_6" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="GetTableRange_2" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="ReadRange_3" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="GetTableRange_3" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="ReadRange_4" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_7" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="GetTableRange_4" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="ReadRange_5" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="Assign_8" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="222.4,363.2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_11" sap:VirtualizedContainerService.HintSize="414.4,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="GetRowItem_2" sap:VirtualizedContainerService.HintSize="314.4,64.8" />
+      <sap2010:ViewStateData Id="GetRowItem_3" sap:VirtualizedContainerService.HintSize="314.4,64.8" />
+      <sap2010:ViewStateData Id="Assign_55" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="Assign_49" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="Assign_56" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="Assign_50" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="Sequence_30" sap:VirtualizedContainerService.HintSize="336.8,694.4">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEachRow_5" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_28" sap:VirtualizedContainerService.HintSize="414.4,224.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_14" sap:VirtualizedContainerService.HintSize="414.4,60" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_16" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="Sequence_94" sap:VirtualizedContainerService.HintSize="414.4,128.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_129" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_17" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="Sequence_142" sap:VirtualizedContainerService.HintSize="414.4,144.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="InvokeWorkflowFile_18" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="Sequence_18" sap:VirtualizedContainerService.HintSize="414.4,128.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_121" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_127" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_122" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_128" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_131" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_132" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Sequence_139" sap:VirtualizedContainerService.HintSize="414.4,176.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_2" sap:VirtualizedContainerService.HintSize="414.4,92.8" />
+      <sap2010:ViewStateData Id="ExcelInsertDeleteRows_1" sap:VirtualizedContainerService.HintSize="314.4,22.4" />
+      <sap2010:ViewStateData Id="ExcelAppendRange_1" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="ExcelInsertDeleteRows_2" sap:VirtualizedContainerService.HintSize="314.4,22.4" />
+      <sap2010:ViewStateData Id="Sequence_135" sap:VirtualizedContainerService.HintSize="336.8,337.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelInsertDeleteRows_3" sap:VirtualizedContainerService.HintSize="314.4,22.4" />
+      <sap2010:ViewStateData Id="ExcelAppendRange_2" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="ExcelInsertDeleteRows_4" sap:VirtualizedContainerService.HintSize="314.4,22.4" />
+      <sap2010:ViewStateData Id="Sequence_136" sap:VirtualizedContainerService.HintSize="336.8,337.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelInsertDeleteRows_5" sap:VirtualizedContainerService.HintSize="314.4,22.4" />
+      <sap2010:ViewStateData Id="ExcelAppendRange_3" sap:VirtualizedContainerService.HintSize="314.4,88" />
+      <sap2010:ViewStateData Id="ExcelInsertDeleteRows_6" sap:VirtualizedContainerService.HintSize="314.4,22.4" />
+      <sap2010:ViewStateData Id="Sequence_143" sap:VirtualizedContainerService.HintSize="336.8,337.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Sequence_119" sap:VirtualizedContainerService.HintSize="200,52.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelApplicationScope_2" sap:VirtualizedContainerService.HintSize="414.4,162.4" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="436.8,1953.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Attended_build_excelDashboard_1" sap:VirtualizedContainerService.HintSize="476.8,2033.6" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

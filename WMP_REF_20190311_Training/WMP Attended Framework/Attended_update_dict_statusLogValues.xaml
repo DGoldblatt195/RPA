@@ -1,0 +1,315 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Attended_update_dict_statusLogValues"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="io_dict_statusLog" Type="InOutArgument(scg:Dictionary(x:String, x:String))" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>Attended_update_dict_statusLogValues_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Plugin.Workflow</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Updates dict_statusLog for Next Transaction.&#xA;To validate Hardcoded Values, compare Save Temporary Vars to values in Config Dictionary&#xA;&#xA;Precondition: dict_statusLog is initialized&#xA;Postcondition: dict_statusLog retains &quot;Run Status&quot;, &quot;RunStart&quot;, and &quot;LoadTransactionData&quot; values but is otherwise updated with values of &quot;NA&quot;" DisplayName="Attended_update_dict_statusLogValues" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="runStatus" />
+      <Variable x:TypeArguments="x:String" Name="runStatus_logged" />
+      <Variable x:TypeArguments="x:String" Name="runStart" />
+      <Variable x:TypeArguments="x:String" Name="runStart_logged" />
+      <Variable x:TypeArguments="x:String" Name="dispatcher" />
+      <Variable x:TypeArguments="x:String" Name="dispatcher_logged" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="list_tempLogKey" />
+      <Variable x:TypeArguments="x:String" Name="totalTransactions" />
+    </Sequence.Variables>
+    <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Updating Status Log for Next Transaction&quot;]" />
+    <Sequence DisplayName="Save Temporary Vars" sap2010:WorkflowViewState.IdRef="Sequence_2">
+      <Assign DisplayName="Temp Assign - runStatus" sap2010:WorkflowViewState.IdRef="Assign_1">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[runStatus]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[io_dict_statusLog("runStatus")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Temp Assign - runStatus-Logged" sap2010:WorkflowViewState.IdRef="Assign_2">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[runStatus_logged]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[io_dict_statusLog("runStatus-Logged")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Temp Assign - runStart" sap2010:WorkflowViewState.IdRef="Assign_3">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[runStart]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[io_dict_statusLog("runStart")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Temp Assign - runStart-Logged" sap2010:WorkflowViewState.IdRef="Assign_4">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[runStart_logged]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[io_dict_statusLog("runStart-Logged")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Temp Assign - dispatcher" sap2010:WorkflowViewState.IdRef="Assign_5">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[dispatcher]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[io_dict_statusLog("dispatcher")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Temp Assign - dispatcher-Logged" sap2010:WorkflowViewState.IdRef="Assign_6">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[dispatcher_logged]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[io_dict_statusLog("dispatcher-Logged")]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="Temp Assign - totalTransactions" sap2010:WorkflowViewState.IdRef="Assign_18">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[totalTransactions]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[io_dict_statusLog("totalTransactions")]</InArgument>
+        </Assign.Value>
+      </Assign>
+    </Sequence>
+    <Assign DisplayName="Assign List for Iteration" sap2010:WorkflowViewState.IdRef="Assign_16">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(x:String)">[list_tempLogKey]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(x:String)">[New List(of String)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEach x:TypeArguments="scg:KeyValuePair(x:String, x:String)" CurrentIndex="{x:Null}" DisplayName="Get Each Key in dict_statusLog" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[io_dict_statusLog]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="scg:KeyValuePair(x:String, x:String)">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="scg:KeyValuePair(x:String, x:String)" Name="item" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="add to list collection" sap2010:WorkflowViewState.IdRef="Sequence_3">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="ui:GenericValue" Name="tempKey" />
+            </Sequence.Variables>
+            <AddToCollection x:TypeArguments="x:String" Collection="[list_tempLogKey]" DisplayName="Add To Collection - list_tempLog" sap2010:WorkflowViewState.IdRef="AddToCollection`1_1" Item="[item.Key]" />
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Key in Dict, upate Value to NA" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[list_tempLogKey]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="x:String">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:String" Name="item" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_6">
+            <Assign DisplayName="Assign - NA to all values in dict_statusLog" sap2010:WorkflowViewState.IdRef="Assign_17">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[io_dict_statusLog(item)]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">["NA"]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <Sequence DisplayName="Assign Temp Back to Dictionary" sap2010:WorkflowViewState.IdRef="Sequence_4">
+      <Assign DisplayName="statusLog - runStatus" sap2010:WorkflowViewState.IdRef="Assign_7">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[io_dict_statusLog("runStatus")]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[runStatus]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="statusLog - runStatus-Logged" sap2010:WorkflowViewState.IdRef="Assign_8">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[io_dict_statusLog("runStatus-Logged")]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[runStatus_logged]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="statusLog - runStart" sap2010:WorkflowViewState.IdRef="Assign_9">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[io_dict_statusLog("runStart")]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[runStart]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="statusLog - runStart-Logged" sap2010:WorkflowViewState.IdRef="Assign_10">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[io_dict_statusLog("runStart-Logged")]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[runStart_logged]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="statusLog - dispatcher" sap2010:WorkflowViewState.IdRef="Assign_11">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[io_dict_statusLog("dispatcher")]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[dispatcher]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="statusLog - dispatcher-Logged" sap2010:WorkflowViewState.IdRef="Assign_12">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[io_dict_statusLog("dispatcher-Logged")]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[dispatcher_logged]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign DisplayName="statusLog - totalTransactions" sap2010:WorkflowViewState.IdRef="Assign_19">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[io_dict_statusLog("totalTransactions")]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[totalTransactions]</InArgument>
+        </Assign.Value>
+      </Assign>
+    </Sequence>
+    <ui:LogMessage DisplayName="Log Message" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Status Log ready for Next Transaction&quot;]" />
+    <sads:DebugSymbol.Symbol>d2lDOlxVc2Vyc1x3Y2hhbmNlXERlc2t0b3BcV01QX1JFRl9Xb3JraW5nXFdNUCBBdHRlbmRlZCBGcmFtZXdvcmtcQXR0ZW5kZWRfdXBkYXRlX2RpY3Rfc3RhdHVzTG9nVmFsdWVzLnhhbWxARwPzAQ4CAQFSBVKtAQIBYlMFjAEQAgE+jQEFlAEOAgE6lQEFowESAgExpAEFtgESAgEotwEF8AEQAgEE8QEF8QGqAQIBAlJyUqoBAgFjVAdbEAIBXVwHYxACAVhkB2sQAgFTbAdzEAIBTnQHexACAUl8B4MBEAIBRIQBB4sBEAIBP5IBOpIBTwIBPY8BO48BTAIBO5UBwgGVAdcBAgE4mwELoAEWAgEypAGqAaQBvQECAS+qAQuzARYCASm4AQe/ARACASPAAQfHARACAR7IAQfPARACARnQAQfXARACARTYAQffARACAQ/gAQfnARACAQroAQfvARACAQXxAXLxAacBAgEDWTJZUgIBYFYzVj4CAV5hMmFZAgFbXjNeRQIBWWkyaVECAVZmM2Y9AgFUcTJxWAIBUW4zbkQCAU95MnlTAgFMdjN2PwIBSoEBMoEBWgIBR34zfkYCAUWJATKJAVoCAUKGATOGAUYCAUCfAQ2fAdEBAgEzqwENsgEWAgEqvQEyvQE9AgEmugEzugFTAgEkxQEyxQFEAgEhwgEzwgFaAgEfzQEyzQE8AgEcygEzygFSAgEa1QEy1QFDAgEX0gEz0gFZAgEV3QEy3QE+AgES2gEz2gFUAgEQ5QEy5QFFAgEN4gEz4gFbAgEL7QEy7QFFAgEI6gEz6gFbAgEGnwFEnwFXAgE2nwHCAZ8BzgECATSwATiwAT4CAS6tATmtAVICASs=</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="LogMessage_1" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_6" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_18" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="314.4,784.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_16" sap:VirtualizedContainerService.HintSize="314.4,60" />
+      <sap2010:ViewStateData Id="AddToCollection`1_1" sap:VirtualizedContainerService.HintSize="200,22.4" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="222.4,147.2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_2" sap:VirtualizedContainerService.HintSize="314.4,281.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_17" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="265.6,184.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_3" sap:VirtualizedContainerService.HintSize="314.4,319.2" />
+      <sap2010:ViewStateData Id="Assign_7" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_8" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_9" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_10" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_11" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_12" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Assign_19" sap:VirtualizedContainerService.HintSize="243.2,60" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="314.4,784.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogMessage_2" sap:VirtualizedContainerService.HintSize="314.4,92.8" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336.8,2920.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Attended_update_dict_statusLogValues_1" sap:VirtualizedContainerService.HintSize="376.8,3000.8" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
